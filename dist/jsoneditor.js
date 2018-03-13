@@ -2161,32 +2161,37 @@ JSONEditor.defaults.editors.string = JSONEditor.AbstractEditor.extend({
     // Code editor
     if(this.source_code) {      
       // WYSIWYG html and bbcode editor
+
       if(this.options.wysiwyg && 
         ['html','bbcode'].indexOf(this.input_type) >= 0 && 
-        window.jQuery && window.jQuery.fn && window.jQuery.fn.sceditor
-      ) {
-        options = $extend({},{
+        window.sceditor
+      )  {
+        let sceditor_instance = sceditor.create(self.input, Object.assign({}, {
           plugins: self.input_type==='html'? 'xhtml' : 'bbcode',
-          emoticonsEnabled: false,
           width: '100%',
-          height: 300
-        },JSONEditor.plugins.sceditor,self.options.sceditor_options||{});
-        
-        window.jQuery(self.input).sceditor(options);
-        
-        self.sceditor_instance = window.jQuery(self.input).sceditor('instance');
-        
-        self.sceditor_instance.blur(function() {
-          // Get editor's value
-          var val = window.jQuery("<div>"+self.sceditor_instance.val()+"</div>");
-          // Remove sceditor spans/divs
-          window.jQuery('#sceditor-start-marker,#sceditor-end-marker,.sceditor-nlf',val).remove();
-          // Set the value and update
-          self.input.value = val.html();
+          emoticonsEnabled: false,
+          height: 300,
+          style: 'minified/themes/content/default.min.css'
+        },JSONEditor.plugins.sceditor,self.options.sceditor_options||{}));
+        // self.sceditor_instance = 
+        self.sceditor_instance = sceditor.instance(self.input)
+        function watch_change() {
+          var val = self.sceditor_instance.val()
+          var div = document.createElement(`div`)
+          div.innerHTML = val
+          let lst = div.querySelectorAll('#sceditor-start-marker,#sceditor-end-marker,.sceditor-nlf')
+          for (let index = lst.length - 1; index >=0 ; index--) {
+            const element = lst[index];
+            element.remove()
+          }
+          self.input.value = div.innerHTML
           self.value = self.input.value;
           self.is_dirty = true;
           self.onChange(true);
-        });
+        }
+        window.a = self.input
+        self.sceditor_instance.blur(watch_change)
+        
       }
       // EpicEditor for markdown (if it's loaded)
       else if (this.input_type === 'markdown' && window.EpicEditor) {

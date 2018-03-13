@@ -119,7 +119,7 @@
             <div class='span12 col-md-12 columns twelve large-12'>
                 <h2>Code</h2>
       <pre><code>// Set default options
-JSONEditor.defaults.options.theme = 'bootstrap2';
+JSONEditor.defaults.options.theme = 'html';
 
 // Initialize the editor
 var editor = new JSONEditor(document.getElementById("editor_holder"),{
@@ -174,6 +174,10 @@ editor.on("change",  function() {
             properties: {
                 name: {
                     type: "string",
+                    "format": "html",
+        "options": {
+            "wysiwyg": true
+  },
                     description: "First and Last name",
                     minLength: 4,
                     default: "Jeremy Dorn"
@@ -412,7 +416,7 @@ editor.on("change",  function() {
     }
 
     // Set options from direct link
-    setTheme((window.location.href.match(/[?&]theme=([^&]+)/)||[])[1] || 'bootstrap2', true);
+    setTheme((window.location.href.match(/[?&]theme=([^&]+)/)||[])[1] || 'html', true);
 
     setIconlib((window.location.href.match(/[?&]iconlib=([^&]*)/)||[null,'fontawesome4'])[1], true);
 

@@ -4,11 +4,20 @@
     <meta charset="utf-8" />
     <title>JSON Editor WYSIWYG Example</title>
     <script src="../dist/jsoneditor.js"></script>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="//cdn.jsdelivr.net/sceditor/1.4.3/jquery.sceditor.bbcode.min.js"></script>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/sceditor/1.4.3/jquery.sceditor.default.min.css">
-    <script src="//cdn.jsdelivr.net/sceditor/1.4.3/jquery.sceditor.xhtml.min.js"></script>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/sceditor/1.4.3/themes/default.min.css">
+    <!-- <script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script> -->
+    <!-- <script src="https://cdn.bootcss.com/sceditor/1.4.3/jquery.sceditor.bbcode.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/sceditor/1.4.3/jquery.sceditor.default.min.css">
+    <script src="https://cdn.bootcss.com/sceditor/1.4.3/jquery.sceditor.xhtml.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/sceditor/1.4.3/themes/default.min.css"> -->
+    <!-- Include the default theme -->
+    <link rel="stylesheet" href="./minified/themes/default.min.css" />
+
+    <!-- Include the editors JS -->
+    <script src="./minified/sceditor.min.js"></script>
+
+    <!-- Include the BBCode or XHTML formats -->
+    <script src="./minified/formats/bbcode.js"></script>
+    <script src="./minified/formats/xhtml.js"></script>
   </head>
   <body>
     <h1>JSON Editor WYSIWYG Example</h1>
@@ -34,6 +43,13 @@
               options: {
                 wysiwyg: true
               }
+            },
+            body1: {
+              type: "string",
+              format: "html",
+              options: {
+                wysiwyg: true
+              }
             }
           }
         }
@@ -44,6 +60,11 @@
         // Get the value from the editor
         console.log(editor.getValue());
       });
+      editor.on('change',function() {
+        // Do something
+        console.log(editor.getValue());
+      });
+      window.editor = editor
     </script>
   </body>
 </html>
