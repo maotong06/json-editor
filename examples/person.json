@@ -1,5 +1,5 @@
 {
-  "$ref": "basic_person.json",
+  "$ref": "https://raw.githubusercontent.com/maotong06/json-editor/master/examples/basic_person.json",
   "properties": {
     "location": {
       "type": "object",
